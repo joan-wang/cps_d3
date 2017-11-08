@@ -7,18 +7,20 @@
   <title> Bar Chart </title>
 
   <style> 
-  	h2 { text-indent: 50px; color: blue;}
+  	h2 { text-indent: 50px; color: teal; font-family: sans-serif;}
   	svg { background-color: #DADFFF;}
+  	.bar { fill: steelblue; }
   </style>
 
 </head>
 <body>
-	<h2> Number of Crimes in Vicinity by Safety Category </h2>
+	<h2> Number of Crimes in Vicinity of Schools </h2>
 	<div class="container">
 		<div id='chart'></div>
 	</div>
 	<p>	Sources: </p>
-	<p>https://github.com/alexcengler/d3-intro-heatmap/blob/master/script.js </p>
+	<p> https://github.com/alexcengler/d3-intro-heatmap/blob/master/script.js </p>
+	<p> https://bl.ocks.org/mbostock/3885304 </p>
 	<script> 
 		// Set Spacing Guidelines
 		var margin = {top: 100, right: 75, bottom: 125, left: 50}
@@ -36,23 +38,50 @@
 			.append("g")
 		  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+		
 		// Load in data
-		d3.json('d3_data.json', function(d) {
-		 	return {
-			    school: d.School_ID,
-			    safety: d.School_Suvey_Safety,
-			   	crimes: +d.num_crimes
+		var data
+		d3.json('d3_data.json', function(error, data) {
+			if(error) {
+				console.log(error);
+			} else {
+				console.log(data);
+				data = data;
+				createBarchart(data);
 			}
-		}, function(error, data){
-		  	if(error) { 
-		    	console.log(error);
-		  	} else {
-		    	createBarchart(data);
-		  	};
 		});
-
+		
 		function createBarchart() {
-			
+			// Create scales
+			var x = d3.scaleBand()
+			    .domain(data.map(function(d) { return d.school; }))
+			    .range([0,width])
+			    .nice();
+
+		  	var y = d3.scaleLinear()
+			    .domain([0, d3.max(data, function(d) { return d.crimes; })])
+			    .range([0,height])
+			    .nice();
+		
+			// Set axes
+			g.append('g')
+				.attr('class', 'axis axis--x')
+				.attr("transform", "translate(0," + height + ")")
+				.call(d3.axisTop(x));
+
+			g.append('g')
+				.attr('class', 'axis axis--y')
+				.attr("transform", "translate(0," + width + ")")
+				.call(d3.axisLeft(y))
+
+			g.selectAll(".bar")
+		    	.data(data)
+		    	.enter().append("rect")
+		      	.attr("class", "bar")
+		      	.attr("x", function(d) { return x(d.school); })
+		      	.attr("y", function(d) { return y(d.crimes); })
+		      	.attr("width", x.bandwidth())
+		      	.attr("height", function(d) { return height - y(d.crimes); });
 		};
 
 	</script>
