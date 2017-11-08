@@ -21,12 +21,13 @@
 	<p>	Sources: </p>
 	<p> https://github.com/alexcengler/d3-intro-heatmap/blob/master/script.js </p>
 	<p> http://bl.ocks.org/Jverma/887877fc5c2c2d99be10 </p>
+  <p> http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html </p>
 <script>
 
 	// Set Spacing Guidelines
-	var margin = {top: 100, right: 75, bottom: 125, left: 50}
+	var margin = {top: 100, right: 100, bottom: 100, left: 100}
 	var width = 800 - margin.left - margin.right;
-	var height = 400 - margin.top - margin.bottom;
+	var height = 500 - margin.top - margin.bottom;
 
 	// Create and Size SVG
 	var svg = d3.select("#chart")
@@ -38,8 +39,9 @@
 	var g = svg.append("g")
 	  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // Define scales
 	var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-		y = d3.scaleLinear().rangeRound([height, 0]);
+		  y = d3.scaleLinear().rangeRound([0, height]).nice();
 
 d3.json("d3_data.json", function(error, data) {
 
@@ -59,67 +61,41 @@ d3.json("d3_data.json", function(error, data) {
 
 
 function createBarchart(d) {
+  // Set scales
   x.domain(d.map(function(d) { return d.shortName; }));
-  	y.domain([0, d3.max(d, function(d) { return d.numCrimes; })]);
-			
+  y.domain([0, d3.max(d, function(d) { return d.numCrimes; })]);
 
-  
+
 	// Set axes
 	g.append('g')
 		.attr('class', 'axis axis--x')
-		.attr("transform", "translate(0," + height + ")")
+    //.attr("transform", "translate(" + 0 + " ," + 10 + ")")
 		.call(d3.axisBottom(x));
 
 	g.append('g')
-		//.attr('class', 'axis axis--y')
-		//.attr("transform", "translate(0," + width + ")")
-		//.call(d3.axisLeft(y))
 		.attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(5))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
+    //.attr("transform", "translate(" + 10 + " ," + 0 + ")")
+    .call(d3.axisLeft(y).ticks(5));
 
+  // Label axes
+  g.append('text')
+    .attr("transform", "translate(" + (width/2) + " ," + (-margin.top/3) + ")")
+    .attr('text-anchor', 'middle')
+    .text('School');
+
+  g.append('text')
+    .attr("transform", "translate(" + (-margin.left/2) + " ," + (height/2) + ")" + "rotate(-90)")
+    .attr('text-anchor', 'middle')
+    .text('Number of Crimes in Vicinity');
+
+  // Draw bars
 	g.selectAll(".bar")
-    	.data(d)
-    	.enter().append("rect")
-      	.attr("class", "bar")
-      	.attr("x", function(d) { return x(d.shortName); })
-      	.attr("y", function(d) { return y(d.numCrimes); })
-      	.attr("width", x.bandwidth())
-      	.attr("height", function(d) { return height - y(d.numCrimes); });
-};
-
-/*
-  x.domain(data.map(function(d) { return d.School_ID; }));
-  y.domain([0, d3.max(data, function(d) { return d.numCrimes; })]);
-
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
-
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.School_ID); })
-      .attr("y", function(d) { return y(d.numCrimes); })
+  	.data(d)
+  	.enter().append("rect")
+    	.attr("class", "bar")
+    	.attr("x", function(d) { return x(d.shortName); })
+    	.attr("y", 0)
       .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.numCrimes); });
-});
-*/
+      .attr("height", function(d) { return y(d.numCrimes); })
+};
 </script>
