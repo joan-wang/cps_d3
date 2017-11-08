@@ -1,1 +1,3 @@
-# cps_d3
+# Bar Chart
+
+First D3 assignment
