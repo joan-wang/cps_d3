@@ -10,6 +10,7 @@
   	h2 { text-indent: 50px; color: teal; font-family: sans-serif;}
   	svg { background-color: #DADFFF;}
   	.bar { fill: steelblue; }
+    .axis-label {font-family: sans-serif;}
   </style>
 
 </head>
@@ -18,14 +19,15 @@
 	<div class="container">
 		<div id='chart'></div>
 	</div>
-	<p>	Sources: </p>
+	<p>	Sources referenced: </p>
 	<p> https://github.com/alexcengler/d3-intro-heatmap/blob/master/script.js </p>
 	<p> http://bl.ocks.org/Jverma/887877fc5c2c2d99be10 </p>
   <p> http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html </p>
+  <p> http://bl.ocks.org/phoebebright/3061203 </p>
 <script>
 
 	// Set Spacing Guidelines
-	var margin = {top: 100, right: 100, bottom: 100, left: 100}
+	var margin = {top: 200, right: 100, bottom: 100, left: 100}
 	var width = 800 - margin.left - margin.right;
 	var height = 500 - margin.top - margin.bottom;
 
@@ -59,7 +61,6 @@ d3.json("d3_data.json", function(error, data) {
 });
 
 
-
 function createBarchart(d) {
   // Set scales
   x.domain(d.map(function(d) { return d.shortName; }));
@@ -79,15 +80,24 @@ function createBarchart(d) {
 
   // Label axes
   g.append('text')
+    .attr('class', 'axis-label')
     .attr("transform", "translate(" + (width/2) + " ," + (-margin.top/3) + ")")
     .attr('text-anchor', 'middle')
     .text('School');
 
   g.append('text')
+    .attr('class', 'axis-label')
     .attr("transform", "translate(" + (-margin.left/2) + " ," + (height/2) + ")" + "rotate(-90)")
     .attr('text-anchor', 'middle')
     .text('Number of Crimes in Vicinity');
 
+  // Format axes labels
+  g.selectAll('.axis--x text')
+    .attr('transform', function(d) {
+      return 'translate(' + this.getBBox().height*-1 + ',' + (this.getBBox().height-25) + ')rotate(-45)';
+    })
+    .attr('text-anchor', 'start');
+  
   // Draw bars
 	g.selectAll(".bar")
   	.data(d)
