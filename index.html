@@ -7,10 +7,10 @@
   <title> Bar Chart </title>
 
   <style> 
-  	h2 { text-indent: 50px; color: teal; font-family: sans-serif;}
-  	svg { background-color: #DADFFF;}
-  	.bar { fill: steelblue; }
-    .axis-label {font-family: sans-serif;}
+    * { font-family: sans-serif;}
+  	h2 { text-indent: 50px; color: teal;}
+  	svg { background-color: #e6f5c9;}
+  	.legend { font-size: 5;}
   </style>
 
 </head>
@@ -24,10 +24,12 @@
 	<p> http://bl.ocks.org/Jverma/887877fc5c2c2d99be10 </p>
   <p> http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html </p>
   <p> http://bl.ocks.org/phoebebright/3061203 </p>
+  <p> https://bl.ocks.org/curran/fea34ca9b3b8886e3ab8 </p>
+  <p> https://bl.ocks.org/mbostock/3887051 </p>
 <script>
 
 	// Set Spacing Guidelines
-	var margin = {top: 200, right: 100, bottom: 100, left: 100}
+	var margin = {top: 100, right: 100, bottom: 100, left: 100}
 	var width = 800 - margin.left - margin.right;
 	var height = 500 - margin.top - margin.bottom;
 
@@ -43,29 +45,35 @@
 
   // Define scales
 	var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-		  y = d3.scaleLinear().rangeRound([0, height]).nice();
+		  y = d3.scaleLinear().rangeRound([0, height]).nice(),
+      colorScale = d3.scaleOrdinal()
+        .domain(['NEUTRAL', 'STRONG', 'VERY STRONG', 'VERY WEAK', 'WEAK'])
+        .range(['#ffffff', '#bababa', '#404040', '#ca0020','#f4a582']);
 
 d3.json("d3_data.json", function(error, data) {
 
 	data.forEach(function(d) {
 		d.shortName = d.Short_Name
 		d.numCrimes = +d.num_crimes
+    d.safety = d.School_Survey_Safety
 		console.log(d)
 	});
 
 	if(error) { 
     	console.log(error);
   	} else {
+      // Sort data by numCrimes
+      data.sort(function(a,b) { return b.numCrimes - a.numCrimes; })
     	createBarchart(data);
   	};
 });
 
 
-function createBarchart(d) {
+function createBarchart(data) {
   // Set scales
-  x.domain(d.map(function(d) { return d.shortName; }));
-  y.domain([0, d3.max(d, function(d) { return d.numCrimes; })]);
-
+  x.domain(data.map(function(d) { return d.shortName; }));
+  y.domain([0, d3.max(data, function(d) { return d.numCrimes; })]);
+  colorScale.domain(data.map(function(d) { return d.safety; }));
 
 	// Set axes
 	g.append('g')
@@ -81,7 +89,7 @@ function createBarchart(d) {
   // Label axes
   g.append('text')
     .attr('class', 'axis-label')
-    .attr("transform", "translate(" + (width/2) + " ," + (-margin.top/3) + ")")
+    .attr("transform", "translate(" + (width/2) + " ," + (-margin.top/1.5) + ")")
     .attr('text-anchor', 'middle')
     .text('School');
 
@@ -100,12 +108,38 @@ function createBarchart(d) {
   
   // Draw bars
 	g.selectAll(".bar")
-  	.data(d)
+  	.data(data)
   	.enter().append("rect")
     	.attr("class", "bar")
     	.attr("x", function(d) { return x(d.shortName); })
-    	.attr("y", 0)
+    	.attr("y", 1)
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return y(d.numCrimes); })
+      //.attr("fill", 'teal');
+      .attr("fill", function(d) { return colorScale(d.safety); });
+
+  // Draw legend
+  legend = ['VERY WEAK', 'WEAK', 'NEUTRAL', 'STRONG', 'VERY STRONG']
+  legendColor = ['#ffffff', '#bababa', '#404040', '#ca0020','#f4a582',]
+
+  var legend = g.append('g')
+    .attr('font-size', 12)
+    .selectAll('g')
+    .data(legend)
+    .enter().append('g')
+    .attr("transform", function(d, i) { return "translate(" + (width - margin.right) + ',' + (i * 21 + height - margin.bottom) + ")"; });
+
+  legend.append("rect")
+      //.attr("x", width - margin.right)
+      .attr("width", 19)
+      .attr("height", 19)
+      .attr("fill", colorScale);
+
+  legend.append("text")
+      .attr("x", 25)
+      .attr("y", 9.5)
+      .attr("dy", "0.4em")
+      .text(function(d) { return d; });
+
 };
 </script>
