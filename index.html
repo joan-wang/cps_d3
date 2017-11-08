@@ -29,7 +29,7 @@
 <script>
 
 	// Set Spacing Guidelines
-	var margin = {top: 100, right: 100, bottom: 100, left: 100}
+	var margin = {top: 100, right: 50, bottom: 50, left: 100}
 	var width = 800 - margin.left - margin.right;
 	var height = 500 - margin.top - margin.bottom;
 
@@ -47,8 +47,10 @@
 	var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
 		  y = d3.scaleLinear().rangeRound([0, height]).nice(),
       colorScale = d3.scaleOrdinal()
-        .domain(['NEUTRAL', 'STRONG', 'VERY STRONG', 'VERY WEAK', 'WEAK'])
-        .range(['#ffffff', '#bababa', '#404040', '#ca0020','#f4a582']);
+        //.domain(['NEUTRAL', 'STRONG', 'VERY STRONG', 'VERY WEAK', 'WEAK'])
+        .domain(['VERY WEAK', 'WEAK', 'NEUTRAL', 'STRONG', 'VERY STRONG'])
+        .range(['#ffffff', '#ca0020', '#f4a582', '#bababa', '#404040']);
+        //.range(['#ca0020','#f4a582','#ffffff','#bababa','#404040']);
 
 d3.json("d3_data.json", function(error, data) {
 
@@ -84,7 +86,7 @@ function createBarchart(data) {
 	g.append('g')
 		.attr("class", "axis axis--y")
     //.attr("transform", "translate(" + 10 + " ," + 0 + ")")
-    .call(d3.axisLeft(y).ticks(5));
+    .call(d3.axisLeft(y).ticks(10));
 
   // Label axes
   g.append('text')
@@ -119,27 +121,26 @@ function createBarchart(data) {
       .attr("fill", function(d) { return colorScale(d.safety); });
 
   // Draw legend
-  legend = ['VERY WEAK', 'WEAK', 'NEUTRAL', 'STRONG', 'VERY STRONG']
-  legendColor = ['#ffffff', '#bababa', '#404040', '#ca0020','#f4a582',]
+  var legendLabels = ['VERY WEAK', 'WEAK', 'NEUTRAL', 'STRONG', 'VERY STRONG']
 
   var legend = g.append('g')
     .attr('font-size', 12)
     .selectAll('g')
-    .data(legend)
+    .data(legendLabels)
     .enter().append('g')
-    .attr("transform", function(d, i) { return "translate(" + (width - margin.right) + ',' + (i * 21 + height - margin.bottom) + ")"; });
+    .attr("transform", function(d, i) { return "translate(" + (width - margin.right-60) + ',' + (i * 21 + height - margin.bottom -60) + ")"; });
 
   legend.append("rect")
-      //.attr("x", width - margin.right)
-      .attr("width", 19)
-      .attr("height", 19)
-      .attr("fill", colorScale);
+    //.attr("x", width - margin.right)
+    .attr("width", 19)
+    .attr("height", 19)
+    .attr("fill", colorScale);
 
   legend.append("text")
-      .attr("x", 25)
-      .attr("y", 9.5)
-      .attr("dy", "0.4em")
-      .text(function(d) { return d; });
+    .attr("x", 25)
+    .attr("y", 9.5)
+    .attr("dy", "0.4em")
+    .text(function(d) { return d; });
 
 };
 </script>
