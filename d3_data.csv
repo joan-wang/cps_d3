@@ -1,0 +1,31 @@
+School_ID,Short_Name,Long_Name,School_Type,Primary_Category,Address,Zip,School_Survey_Safety,num_crimes
+609990,SOUTH LOOP,South Loop Elementary School,Regional gifted center,ES,1212 S PLYMOUTH CT,60605,NEUTRAL,6633
+610060,JACKSON A,Andrew Jackson Elementary Language Academy,Magnet,ES,1340 W HARRISON ST,60607,NEUTRAL,4639
+610131,PLAMONDON,Ambrose Plamondon Elementary School,Neighborhood,ES,2642 W 15TH PL,60608,STRONG,5829
+609993,LARA,Agustin Lara Elementary Academy,Neighborhood,ES,4619 S WOLCOTT AVE,60609,NEUTRAL,3628
+610012,JENNER,Edward Jenner Elementary Academy of the Arts,Neighborhood,ES,1119 N CLEVELAND AVE,60610,VERY WEAK,8631
+610073,MITCHELL,Ellen Mitchell Elementary School,Neighborhood,ES,2233 W OHIO ST,60612,STRONG,4893
+610363,DISNEY,Walt Disney Magnet Elementary School,Magnet,ES,4140 N MARINE DR,60613,NEUTRAL,4277
+610038,LINCOLN,Abraham Lincoln Elementary School,Neighborhood,ES,615 W KEMPER PL,60614,VERY STRONG,4224
+610143,REAVIS,William C Reavis Math & Science Specialty ES,Neighborhood,ES,834 E 50TH ST,60615,VERY WEAK,4799
+609891,DOOLITTLE,James R Doolittle Jr Elementary School,Neighborhood,ES,535 E 35TH ST,60616,VERY WEAK,3416
+610193,NEW SULLIVAN,William K New Sullivan Elementary School,Neighborhood,ES,8331 S MACKINAW AVE,60617,NEUTRAL,3062
+609799,BELL,Alexander Graham Bell Elementary School,Regional gifted center,ES,3730 N OAKLEY AVE,60618,VERY STRONG,2055
+610350,BLACK,Robert A Black Magnet Elementary School,Magnet,ES,9101 S EUCLID AVE,60619,WEAK,2581
+609790,BARTON,Clara Barton Elementary School,Neighborhood,ES,7650 S WOLCOTT AVE,60620,WEAK,5068
+609791,BASS,Perkins Bass Elementary School,Neighborhood,ES,1140 W 66TH ST,60621,WEAK,7381
+610229,PRITZKER,A.N. Pritzker School,Regional gifted center,ES,2009 W SCHILLER ST,60622,NEUTRAL,6219
+610123,PENN,William Penn Elementary School,Neighborhood,ES,1616 S AVERS AVE,60623,VERY WEAK,8693
+610194,SUMNER,Charles Sumner  Math & Science Community Acad ES,Neighborhood,ES,4320 W 5TH AVE,60624,NEUTRAL,10314
+609994,HIBBARD,William G Hibbard Elementary School,Neighborhood,ES,3244 W AINSLIE ST,60625,NEUTRAL,3271
+609918,FIELD,Eugene Field Elementary School,Neighborhood,ES,7019 N ASHLAND AVE,60626,WEAK,3961
+609978,SMITH,Wendell Smith Elementary School,Neighborhood,ES,744 E 103RD ST,60628,NEUTRAL,2372
+610077,MORRILL,Donald Morrill Math & Science Elementary School,Neighborhood,ES,6011 S ROCKWELL ST,60629,WEAK,5105
+610111,PALMER,John Palmer Elementary School,Neighborhood,ES,5051 N KENNETH AVE,60630,NEUTRAL,1512
+609899,EBINGER,Christian Ebinger Elementary School,Neighborhood,ES,7350 W PRATT AVE,60631,STRONG,436
+609855,CHRISTOPHER,Walter S Christopher Elementary School,Neighborhood,ES,5042 S ARTESIAN AVE,60632,NEUTRAL,3825
+609856,CLAY,Henry Clay Elementary School,Neighborhood,ES,13231 S BURLEY AVE,60633,NEUTRAL,469
+609884,DEVER,William E Dever Elementary School,Neighborhood,ES,3436 N OSCEOLA AVE,60634,NEUTRAL,1063
+609869,LANGFORD,Anna R. Langford Community Academy,Neighborhood,ES,6010 S THROOP ST,60636,NEUTRAL,6859
+609977,WOODLAWN,Woodlawn Community Elementary School,Small,ES,6657 S KIMBARK AVE,60637,WEAK,5113
+609893,DORE,John C Dore Elementary School,Neighborhood,ES,6108 S NATOMA AVE,60638,NEUTRAL,825

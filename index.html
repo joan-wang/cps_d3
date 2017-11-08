@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="./d3/d3.min.js"></script>
+
+  <title> Bar Chart </title>
+
+  <style> 
+  	h2 { text-indent: 50px; color: blue;}
+  	svg { background-color: #DADFFF;}
+  </style>
+
+</head>
+<body>
+	<h2> Number of Crimes in Vicinity by Safety Category </h2>
+	<div class="container">
+		<div id='chart'></div>
+	</div>
+
+	<script> 
+		d3.json('d3_data.json', function(d) {
+		  return {
+		    school: d.School_ID,
+		    safety: d.School_Suvey_Safety,
+		   	crimes: d.num_crimes
+		  }
+		}, function(error, data){
+		  if(error) { 
+		    console.log(error);
+		  } else {
+		    createBarchart(data);
+		  };
+		});
+
+	</script>
+<body>
