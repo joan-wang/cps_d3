@@ -10,12 +10,11 @@
     * { font-family: sans-serif;}
   	h2 { text-indent: 50px; color: teal;}
   	svg { background-color: #e6f5c9;}
-  	.legend { font-size: 5;}
+    p { font-size: 10px;}
   </style>
 
 </head>
 <body>
-	<h2> Number of Crimes in Vicinity of Schools </h2>
 	<div class="container">
 		<div id='chart'></div>
 	</div>
@@ -29,7 +28,7 @@
 <script>
 
 	// Set Spacing Guidelines
-	var margin = {top: 100, right: 50, bottom: 50, left: 100}
+	var margin = {top: 170, right: 50, bottom: 50, left: 100}
 	var width = 800 - margin.left - margin.right;
 	var height = 500 - margin.top - margin.bottom;
 
@@ -47,11 +46,9 @@
 	var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
 		  y = d3.scaleLinear().rangeRound([0, height]).nice(),
       colorScale = d3.scaleOrdinal()
-        //.domain(['NEUTRAL', 'STRONG', 'VERY STRONG', 'VERY WEAK', 'WEAK'])
         .domain(['VERY WEAK', 'WEAK', 'NEUTRAL', 'STRONG', 'VERY STRONG'])
         .range(['#ffffff', '#ca0020', '#f4a582', '#bababa', '#404040']);
-        //.range(['#ca0020','#f4a582','#ffffff','#bababa','#404040']);
-
+        
 d3.json("d3_data.json", function(error, data) {
 
 	data.forEach(function(d) {
@@ -80,23 +77,19 @@ function createBarchart(data) {
 	// Set axes
 	g.append('g')
 		.attr('class', 'axis axis--x')
-    //.attr("transform", "translate(" + 0 + " ," + 10 + ")")
-		.call(d3.axisBottom(x));
+    .call(d3.axisBottom(x));
 
 	g.append('g')
 		.attr("class", "axis axis--y")
-    //.attr("transform", "translate(" + 10 + " ," + 0 + ")")
     .call(d3.axisLeft(y).ticks(10));
 
   // Label axes
   g.append('text')
-    .attr('class', 'axis-label')
-    .attr("transform", "translate(" + (width/2) + " ," + (-margin.top/1.5) + ")")
+    .attr("transform", "translate(" + (width/2) + " ," + (-margin.top/2.5) + ")")
     .attr('text-anchor', 'middle')
     .text('School');
 
   g.append('text')
-    .attr('class', 'axis-label')
     .attr("transform", "translate(" + (-margin.left/2) + " ," + (height/2) + ")" + "rotate(-90)")
     .attr('text-anchor', 'middle')
     .text('Number of Crimes in Vicinity');
@@ -114,7 +107,7 @@ function createBarchart(data) {
   	.enter().append("rect")
     	.attr("class", "bar")
     	.attr("x", function(d) { return x(d.shortName); })
-    	.attr("y", 1)
+    	.attr("y", 1.5)
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return y(d.numCrimes); })
       //.attr("fill", 'teal');
@@ -128,10 +121,9 @@ function createBarchart(data) {
     .selectAll('g')
     .data(legendLabels)
     .enter().append('g')
-    .attr("transform", function(d, i) { return "translate(" + (width - margin.right-60) + ',' + (i * 21 + height - margin.bottom -60) + ")"; });
+    .attr("transform", function(d, i) { return "translate(" + (width - margin.right-85) + ',' + (i * 21 + height - margin.bottom -60) + ")"; });
 
   legend.append("rect")
-    //.attr("x", width - margin.right)
     .attr("width", 19)
     .attr("height", 19)
     .attr("fill", colorScale);
@@ -142,5 +134,20 @@ function createBarchart(data) {
     .attr("dy", "0.4em")
     .text(function(d) { return d; });
 
+  // Add title and subtitle and legend header
+  g.append('text')
+    .attr('font-size', 30)
+    .attr("transform", "translate(" + (-margin.left/1.2) + " ," + (-margin.top/1.3) + ")")
+    .text("Number of Crimes in Vicinity of Schools");
+
+  g.append('text')
+    .attr('font-size', 20)
+    .attr("transform", "translate(" + (-margin.left/1.2) + " ," + (-margin.top/1.6) + ")")
+    .text("Students' feeling of safety at school does not directly correspond to nearby crime rates");
+
+   g.append('text')
+    .attr('font-size', 14)
+    .attr("transform", "translate(" + (width - margin.right - 85) + " ," + (height - margin.bottom - 65) + ")")
+    .text("SAFETY SURVEY SCORE");
 };
 </script>
