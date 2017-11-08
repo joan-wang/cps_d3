@@ -17,21 +17,43 @@
 	<div class="container">
 		<div id='chart'></div>
 	</div>
-
+	<p>	Sources: </p>
+	<p>https://github.com/alexcengler/d3-intro-heatmap/blob/master/script.js </p>
 	<script> 
+		// Set Spacing Guidelines
+		var margin = {top: 100, right: 75, bottom: 125, left: 50}
+		var width = 800 - margin.left - margin.right;
+		var height = 400 - margin.top - margin.bottom;
+
+		// Create and Size SVG
+		var svg = d3.select("#chart")
+		    .append("svg")
+		    .attr("width", width + margin.left + margin.right)
+		    .attr("height", height + margin.top + margin.bottom);
+
+		// Create and place start of SVG g tag
+		var g = svg.append("g")
+			.append("g")
+		  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		// Load in data
 		d3.json('d3_data.json', function(d) {
-		  return {
-		    school: d.School_ID,
-		    safety: d.School_Suvey_Safety,
-		   	crimes: d.num_crimes
-		  }
+		 	return {
+			    school: d.School_ID,
+			    safety: d.School_Suvey_Safety,
+			   	crimes: +d.num_crimes
+			}
 		}, function(error, data){
-		  if(error) { 
-		    console.log(error);
-		  } else {
-		    createBarchart(data);
-		  };
+		  	if(error) { 
+		    	console.log(error);
+		  	} else {
+		    	createBarchart(data);
+		  	};
 		});
+
+		function createBarchart() {
+			
+		};
 
 	</script>
 <body>
