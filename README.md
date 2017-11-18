@@ -1,3 +1,3 @@
 # Bar Chart
 
-First D3 assignment
+Source: Chicago Public Schools Progress Reports SY16-17
